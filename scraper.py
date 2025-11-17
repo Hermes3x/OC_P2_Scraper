@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 livre = requests.get(url)
@@ -25,7 +26,7 @@ description = p[3].get_text()
 img = soup.find_all('img')
 url_suffixe = img[0].get('src')
 suffixe_transforme = url_suffixe.replace('../..','')
-url_image = 'https://books.toscrape.com/'+ suffixe_transforme
+url_image = 'https://books.toscrape.com'+ suffixe_transforme
 
 produit = {
     'product_page_url' : url,
@@ -40,4 +41,8 @@ produit = {
     'image_url' : url_image
     }
 
-print(produit)
+with open('donnees_extraites_fiche_livre.csv','w', newline="",encoding='utf-8') as donnees_extraites_fiche_livre_csv:
+    writer = csv.DictWriter(donnees_extraites_fiche_livre_csv,fieldnames=list(produit.keys()))
+    writer.writeheader()
+    writer.writerow(produit)
+    
