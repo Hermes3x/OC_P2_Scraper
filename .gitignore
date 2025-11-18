@@ -1,0 +1,6 @@
+# Fichiers de sortie
+*.csv
+
+# Répertoires d’environnements virtuels
+venv/
+.env/
