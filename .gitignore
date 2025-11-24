@@ -1,5 +1,6 @@
 # Fichiers de sortie
 *.csv
+*.jpg
 
 # Répertoires d’environnements virtuels
 venv/
