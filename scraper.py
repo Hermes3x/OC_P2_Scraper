@@ -133,7 +133,7 @@ for category_name in dico_categories_names_url:
 
         # Récupération quantité en stock
         number_available = td[5].get_text(strip=True)
-        number_available_clean = number_available.replace('In stock ()','')
+        number_available_clean = number_available[10]
         items_details['number_available'].append(number_available_clean)
         print(f'Le nombre du livre "{title}" dicponible {number_available_clean} ; Ajout au dictionnaire provisoire items_details')
 
@@ -167,17 +167,17 @@ for category_name in dico_categories_names_url:
 
 
     categories_data[category_name] = items_details
-    print("Création d'un dictionnaire répertoriant les détails des livres appartenant à chaque catégorie")
+    print("Ajout des données extraites au dictionnaire répertoriant les détails des livres par catégorie")
 
     nom_fichier_csv = '0_données_categorie_' + category_name + '.csv'
     chemin_fichier = chemin_fichier_image = os.path.join(rf'C:/Users/jon_c/Documents/OpenClassroom/0 - Exercices/Projet 2/Book to scrape/Données/{category_name}/{nom_fichier_csv}')
     print("Création du chemin d'accès pour l'enregistrement des données dans répertoire local")
 
     with open(chemin_fichier, 'w',newline="",encoding='utf-8-sig') as csv_fiche_livre_donnes_extraites_par_categories:
+        print(f"Création d'un fichier CSV compilant l'ensemble des renseignements extraits pour les livres de la catégorie {category_name}")
         fieldnames = list(items_details.keys())
         writer = csv.DictWriter(csv_fiche_livre_donnes_extraites_par_categories, fieldnames=fieldnames)
         writer.writeheader()
-        print(f"Création d'un fichier CSV compilant l'ensemble des renseignements extraits pour les livres de la catégorie {category_name}")
         for i in range(len(items_details['title'])):
             ligne = {key: items_details[key][i] for key in fieldnames}
             writer.writerow(ligne)

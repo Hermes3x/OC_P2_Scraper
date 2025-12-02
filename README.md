@@ -22,7 +22,7 @@ Voici une version synthétique et claire à utiliser pour ton README :
 
 ## Utilisation
 
-Lancer le script principal :
+Lancer le script principal depuis le terminal :
 ```
 python scraper.py
 ```
