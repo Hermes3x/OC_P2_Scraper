@@ -4,7 +4,10 @@ import csv
 import urllib.request
 import os
 
-site_url = "https://books.toscrape.com/index.html"
+# Dossier de sortie : "Données", à côté du script
+dossier_donnees = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Données')
+
+site_url ="https://books.toscrape.com/index.html"
 site_content = requests.get(site_url)
 site_response = site_content.content
 site_soup = BeautifulSoup(site_response, 'html.parser')
@@ -59,7 +62,7 @@ categories_data = {}
 #Création d'un dossier par catégorie
 for category_name in dico_categories_names_url:
     print(f"Création d'un dossier pour la categorie : {category_name}")
-    os.makedirs(rf'C:\Users\jon_c\Documents\OpenClassroom\0 - Exercices\Projet 2\Book to scrape\Données\{category_name}', exist_ok=True)
+    os.makedirs(os.path.join(dossier_donnees, category_name), exist_ok=True)
 
     #Création d'un dictionnaire "temporaire" par catégorie
     items_details = {
@@ -148,6 +151,8 @@ for category_name in dico_categories_names_url:
                 rating_class_int = 3
             case "Four":
                 rating_class_int = 4
+            case "Five":
+                rating_class_int = 5
         items_details['review_rating'].append(rating_class_int)
      
         #Récupération URL image
@@ -161,7 +166,7 @@ for category_name in dico_categories_names_url:
         #Transformation des données
         nom_image = f'{title}.jpg'
         nom_image_clean = nom_image.replace(':', '-').replace('#','').replace('*',' ').replace('?','').replace('!','').replace(';','').replace('/','').replace('|','').replace('\\','').replace('"','') 
-        chemin_fichier_image = os.path.join(rf'C:/Users/jon_c/Documents/OpenClassroom/0 - Exercices/Projet 2/Book to scrape/Données/{category_name}/{nom_image_clean}')
+        chemin_fichier_image = os.path.join(dossier_donnees, category_name, nom_image_clean)
         urllib.request.urlretrieve(image_url, chemin_fichier_image)
         
         print(f"Extraction des données du livre : {title} ")
@@ -169,7 +174,7 @@ for category_name in dico_categories_names_url:
     categories_data[category_name] = items_details
     
     nom_fichier_csv = '0_données_categorie_' + category_name + '.csv'
-    chemin_fichier = os.path.join(rf'C:/Users/jon_c/Documents/OpenClassroom/0 - Exercices/Projet 2/Book to scrape/Données/{category_name}/{nom_fichier_csv}')
+    chemin_fichier = os.path.join(dossier_donnees, category_name, nom_fichier_csv)
     
     with open(chemin_fichier, 'w',newline="",encoding='utf-8-sig') as csv_fiche_livre_donnes_extraites_par_categories:
         print(f"Création d'un fichier CSV compilant l'ensemble des renseignements extraits pour les livres de la catégorie {category_name}")
