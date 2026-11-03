@@ -148,7 +148,7 @@ for category_name in dico_categories_names_url:
                 rating_class_int = 3
             case "Four":
                 rating_class_int = 4
-        items_details['review_rating'].append(rating_class)
+        items_details['review_rating'].append(rating_class_int)
      
         #Récupération URL image
         img = book_soup.find_all('img')
